@@ -53,11 +53,11 @@ PlayGame.default <- function(x){
   print("Please make sure input is of class 'door'!")
 }
 
-# create method for objects of class: door
+# create method for objects of class door
 PlayGame.door <- function(x){
   # randomly assign winningDoor value
   winningDoor <- sample(1:3, 1)
-  # matching input and winningDoor
+  # match input and winningDoor
   if(winningDoor == x){
     # return message of selected door and doorObject
     cat("\n You have selected the winning door: ", winningDoor, "\n Congrats!")
@@ -111,7 +111,7 @@ setMethod("PlayGame", c(x="door"),
           definition = function(x) {
             # randomly assign winningDoor value
             winningDoor <- sample(1:3, 1)
-            # matching input and winningDoor
+            # match input and winningDoor
             if(winningDoor == x@doorNumber){
               # return message of selected door and doorObject
               cat("\n You have selected the winning door: ", winningDoor, "\n Congrats!")
@@ -127,7 +127,7 @@ setMethod("PlayGame", c(x="door"),
 # create generic function that executes method 
 setGeneric(name = "PlayGame", def = function(x){
   standardGeneric("PlayGame")
-}
+  }
 )
 
 # create test object: not class door
