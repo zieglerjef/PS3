@@ -51,8 +51,8 @@ PlayGame <- function(x){
 }
 
 # create method for objects NOT of class door
-PlayGame.default <- function(x){
-  # randomly assign winningDoor value
+PlayGame.other <- function(x){
+  # return message to change input to class "door"
   print("Please make sure input is of class 'door'!")
 }
 
