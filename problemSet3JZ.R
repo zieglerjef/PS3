@@ -83,3 +83,72 @@ testObject3 <- doorObject()
 PlayGame(testObject3)
 
 
+## This time use the S4 system. Under S4, you will need to write:
+# - construction function that allows the user to create a door object
+# - validation function that checks whether the value stored in door is actually an integer
+# - the new generic method PlayGame explained above
+
+# setClass for "door"
+setClass(Class="door",
+         # specify doorNumber as numeric input by the user
+         slots = c(doorNumber = "numeric"
+         ),
+         # if input not specified by user, randomly assign doorNumber
+         prototype = prototype(
+           doorNumber = sample(1:3, 1)
+         ),
+         # create validity check for input as integer 1, 2, or 3
+         validity = function(object){
+           # check input type (must be integer 1, 2, or 3)
+           if(!(object@doorNumber %in% c(1:3))){
+             stop("Input must be 1, 2, or 3!")
+           }
+         }
+)
+
+# create new method PlayGame
+setMethod("PlayGame", c(x="door"),
+          definition = function(x) {
+            # randomly assign winningDoor value
+            winningDoor <- sample(1:3, 1)
+            # matching input and winningDoor
+            if(winningDoor == x@doorNumber){
+              # return message of selected door and doorObject
+              cat("\n You have selected the winning door: ", winningDoor, "\n Congrats!")
+            }
+            # mismatch b/w input and winningDoor
+            else{
+              # return message of selected door and doorObject
+              cat("\n You have selected the wrong door! The winning door is: ", winningDoor)
+            }
+          }
+)
+
+# create generic function that executes method 
+setGeneric(name = "PlayGame", def = function(x){
+  standardGeneric("PlayGame")
+}
+)
+
+# create test object: not class door
+# throw error
+testObject4 <- new("numeric", doorNumber=1)
+PlayGame(testObject4) 
+
+# create test object: doorNumber not integer
+# throw error
+testObject5 <- new("door", doorNumber=1.5)
+
+# create test object: doorNumber not 1:3
+# throw error
+testObject6 <- new("door", doorNumber=10)
+
+# create test object: doorNumber not specified
+testObject7 <- new("door")
+testObject7
+PlayGame(testObject7) 
+
+# create test object: not class door
+testObject8 <- new("door", doorNumber=1)
+testObject8
+PlayGame(testObject8) 
