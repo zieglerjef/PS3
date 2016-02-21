@@ -7,7 +7,7 @@
 ## Function:
 # - creates an object of class door
 # - generates numeric value (1, 2, or 3)
-# - allow user to select door, randomly assign door as default
+# - allows user to select door, randomly assign door as default
 
 doorObject <- function(doorNumber=NULL){
   # assign value for doorNumber if not provided by the user
@@ -35,6 +35,9 @@ doorObject(doorNumber = 10)
 # user input: doorNumber = 1
 doorObject(doorNumber = 1)
 
+# create test object and retrieve stored value and class
+testObject1 <- doorObject(doorNumber = 1)
+testObject1
 
 ## Create a method for door objects that is called PlayGame. This method is supposed to do the following:
 # - take the numeric value that is stored in the door object
@@ -70,11 +73,13 @@ PlayGame.door <- function(x){
 }
 
 
-# create test object: numeric
+# create test object: class "numeric"
+# throw error
 testObject1 <- 1
 PlayGame(testObject1)
 
-# create test object: character
+# create test object: class "character"
+# throw error
 testObject2 <- "1"
 PlayGame(testObject2)
 
@@ -88,7 +93,7 @@ PlayGame(testObject3)
 # - validation function that checks whether the value stored in door is actually an integer
 # - the new generic method PlayGame explained above
 
-# setClass for "door"
+# construction function to create object of class "door"
 setClass(Class="door",
          # specify doorNumber as numeric input by the user
          slots = c(doorNumber = "numeric"
@@ -106,8 +111,14 @@ setClass(Class="door",
          }
 )
 
+# create generic function that executes method 
+setGeneric(name = "PlayGame", def = function(x){
+  standardGeneric("PlayGame")
+  }
+)
+
 # create new method PlayGame
-setMethod("PlayGame", c(x="door"),
+setMethod("PlayGame", signature="door",
           definition = function(x) {
             # randomly assign winningDoor value
             winningDoor <- sample(1:3, 1)
@@ -122,12 +133,6 @@ setMethod("PlayGame", c(x="door"),
               cat("\n You have selected the wrong door! The winning door is: ", winningDoor)
             }
           }
-)
-
-# create generic function that executes method 
-setGeneric(name = "PlayGame", def = function(x){
-  standardGeneric("PlayGame")
-  }
 )
 
 # create test object: not class door
@@ -145,10 +150,12 @@ testObject6 <- new("door", doorNumber=10)
 
 # create test object: doorNumber not specified
 testObject7 <- new("door")
+# return object (class "door" w/ value 1:3 in slot "doorNumber")
 testObject7
 PlayGame(testObject7) 
 
 # create test object: not class door
 testObject8 <- new("door", doorNumber=1)
+# return object (class "door" w/ value 1:3 in slot "doorNumber")
 testObject8
 PlayGame(testObject8) 
