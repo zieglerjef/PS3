@@ -99,6 +99,7 @@ setClass(Class="door",
          slots = c(doorNumber = "numeric"
          ),
          # if input not specified by user, randomly assign doorNumber
+         # this randomization occurs when you create setClass, NOT everytime you try 
          prototype = prototype(
            doorNumber = sample(1:3, 1)
          ),
@@ -114,12 +115,17 @@ setClass(Class="door",
 # create generic function that executes method 
 setGeneric(name = "PlayGame", def = function(x){
   standardGeneric("PlayGame")
-  }
+}
 )
 
 # create new method PlayGame
-setMethod("PlayGame", signature="door",
+setMethod("PlayGame", 
+          # class that method applies to
+          signature="door",
+          # create function
           definition = function(x) {
+            # check validity
+            validObject(x)
             # randomly assign winningDoor value
             winningDoor <- sample(1:3, 1)
             # match input and winningDoor
@@ -154,8 +160,8 @@ testObject7 <- new("door")
 testObject7
 PlayGame(testObject7) 
 
-# create test object: not class door
+# create test object
 testObject8 <- new("door", doorNumber=1)
 # return object (class "door" w/ value 1:3 in slot "doorNumber")
 testObject8
-PlayGame(testObject8) 
+PlayGame(testObject8)
