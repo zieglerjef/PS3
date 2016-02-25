@@ -99,7 +99,6 @@ setClass(Class="door",
          slots = c(doorNumber = "numeric"
          ),
          # if input not specified by user, randomly assign doorNumber
-         # this randomization occurs when you create setClass, NOT everytime you try 
          prototype = prototype(
            doorNumber = sample(1:3, 1)
          ),
